@@ -73,7 +73,7 @@ const incrementCounter = () => {
         counter.value++;
         localStorage.setItem("counter", counter.value);
       }
-      
+
       clickCounter.value = 0;
       console.log(clickCounter.value);
     }, 350); // increase delay as you like
@@ -91,14 +91,9 @@ const displayedEmoji = computed(() => {
 </script>
 
 <template>
-  <div class="card">
+  <div class="card" @click="incrementCounter()">
     <div class="emoji">
-      <img
-        @click="incrementCounter($event)"
-        :src="displayedEmoji"
-        alt=""
-        srcset=""
-      />
+      <img :src="displayedEmoji" alt="" srcset="" />
     </div>
   </div>
 </template>
