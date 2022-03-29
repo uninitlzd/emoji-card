@@ -75,7 +75,7 @@ const incrementCounter = () => {
       
       clickCounter.value = 0;
       console.log(clickCounter.value);
-    }, 500); // increase delay as you like
+    }, 350); // increase delay as you like
   } else if (clickCounter.value === 3) {
     console.log("entry reset!");
     initCardStack();
