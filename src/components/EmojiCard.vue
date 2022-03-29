@@ -42,13 +42,6 @@ const counter = ref(0)
 const maxCounter = ref(emojis.length * MULTIPLE_BY_4)
 const storedEntries = localStorage.getItem('entries')
 
-if (storedEntries === null) {
-  initCardStack()
-} else {
-  emojiEntry = JSON.parse(storedEntries)
-  counter.value = localStorage.getItem('counter')
-}
-
 const initCardStack = () => {
   const multipliedEmojiEntry = multiplyArray(emojis, MULTIPLE_BY_4)
   shuffleArray(multipliedEmojiEntry)
@@ -57,6 +50,13 @@ const initCardStack = () => {
   localStorage.setItem('counter', 0)
   emojiEntry = multipliedEmojiEntry
   counter.value = 0
+}
+
+if (storedEntries === null) {
+  initCardStack()
+} else {
+  emojiEntry = JSON.parse(storedEntries)
+  counter.value = localStorage.getItem('counter')
 }
 
 var clickTimer
