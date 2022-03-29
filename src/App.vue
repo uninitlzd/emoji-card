@@ -11,12 +11,6 @@ import EmojiCard from './components/EmojiCard.vue'
 <style>
 @import './assets/base.css';
 
-#app {
-  max-width: 1280px;
-  overflow: hidden;
-  font-weight: normal;
-}
-
 header {
   line-height: 1.5;
 }
@@ -39,32 +33,11 @@ a,
   }
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+body {
+  overflow: hidden;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+.reset-button {
+    margin: 0 auto;
 }
 </style>

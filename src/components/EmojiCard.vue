@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 
 const emojis = [
   "Avocado.png",
@@ -24,10 +24,11 @@ const emojis = [
   "Tangerine.png",
 ];
 
+const MULTIPLE_BY_4 = 4
+
 const multiplyArray = (arr, length) => 
   Array.from({ length }, () => arr).flat()
 
-const multipliedEmojiEntry = multiplyArray(emojis, 4)
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -36,19 +37,59 @@ function shuffleArray(array) {
     }
 }
 
-shuffleArray(multipliedEmojiEntry)
-
-console.log(multipliedEmojiEntry)
-
+let emojiEntry = []
 const counter = ref(0)
-const maxCounter = ref(multipliedEmojiEntry.length)
+const maxCounter = ref(emojis.length * MULTIPLE_BY_4)
+const storedEntries = localStorage.getItem('entries')
+
+if (storedEntries === null) {
+  initCardStack()
+} else {
+  emojiEntry = JSON.parse(storedEntries)
+  counter.value = localStorage.getItem('counter')
+}
+
+const initCardStack = () => {
+  const multipliedEmojiEntry = multiplyArray(emojis, MULTIPLE_BY_4)
+  shuffleArray(multipliedEmojiEntry)
+
+  localStorage.setItem('entries', JSON.stringify(multipliedEmojiEntry))
+  localStorage.setItem('counter', 0)
+  emojiEntry = multipliedEmojiEntry
+  counter.value = 0
+}
+
+var clickTimer
+const clickCounter = ref(0)
+console.log(clickCounter.value)
 
 const incrementCounter = () => {
-  counter.value++
+  clickCounter.value++;
+  if(clickCounter.value == 1) {
+      clickTimer = setTimeout(function() {
+          console.log(clickCounter.value)
+          // DO NOTHING BUT RESET IN CASE THERES JUST ONE CLICK                    
+          clickCounter.value = 0
+          console.log(clickCounter.value)
+      }, 500);  // increase delay as you like
+  } else if (clickCounter.value === 3) {
+    console.log('entry reset!')
+    initCardStack()
+    alert('Card stack reset')
+  } 
+
+  if (counter.value == maxCounter.value) {
+    counter.value = 0
+  } else {
+    counter.value++
+  }
+
+  localStorage.setItem('counter', counter.value)
 }
 
 const displayedEmoji = computed(() => {
-  return `/emojis/${multipliedEmojiEntry[counter.value]}`
+  // console.log(emojiEntry)
+  return `/emojis/${emojiEntry[counter.value]}`
 })
 
 
@@ -57,7 +98,7 @@ const displayedEmoji = computed(() => {
 <template>
   <div class="card">
     <div class="emoji">
-      <img @click="incrementCounter" :src="displayedEmoji" alt="" srcset="" />
+      <img @click="incrementCounter($event)" :src="displayedEmoji" alt="" srcset="" />
     </div>
   </div>
 </template>
