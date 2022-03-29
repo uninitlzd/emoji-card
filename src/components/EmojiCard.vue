@@ -71,6 +71,7 @@ const incrementCounter = () => {
         counter.value = 0;
       } else {
         counter.value++;
+        localStorage.setItem("counter", counter.value);
       }
       
       clickCounter.value = 0;
@@ -81,8 +82,6 @@ const incrementCounter = () => {
     initCardStack();
     alert("Card stack reset");
   }
-
-  localStorage.setItem("counter", counter.value);
 };
 
 const displayedEmoji = computed(() => {
